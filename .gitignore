@@ -52,3 +52,11 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+
+/notes
+
+# SQLite runtime artifacts (keep dtm.db but ignore temp files)
+dtm.db-shm
+dtm.db-wal
+dtm.db-journal
