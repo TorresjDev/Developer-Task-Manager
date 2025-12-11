@@ -1,0 +1,87 @@
+@page
+@model Developer_Task_Manager.Pages_Tasks.CreateModel
+
+        @{
+        ViewData["Title"] = "Create";
+        }
+        
+        <h1>Create</h1>
+        
+    <h4>TaskItem</h4>
+    <hr />
+    <div class="row">
+    <div class="col-md-4">
+    <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TaskItem.TaskId" class="control-label"></label>
+                <input asp-for="TaskItem.TaskId" class="form-control" />
+                <span asp-validation-for="TaskItem.TaskId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="TaskItem.Title" class="control-label"></label>
+                <input asp-for="TaskItem.Title" class="form-control" aria-required="true"/>
+                <span asp-validation-for="TaskItem.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskItem.Description" class="control-label"></label>
+                <input asp-for="TaskItem.Description" class="form-control" />
+                <span asp-validation-for="TaskItem.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="TaskItem.Priority" class="control-label"></label>
+                <input asp-for="TaskItem.Priority" class="form-control" aria-required="true"/>
+                <span asp-validation-for="TaskItem.Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="TaskItem.Status" class="control-label"></label>
+                <input asp-for="TaskItem.Status" class="form-control" aria-required="true"/>
+                <span asp-validation-for="TaskItem.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskItem.Assignee" class="control-label"></label>
+                <input asp-for="TaskItem.Assignee" class="form-control" />
+                <span asp-validation-for="TaskItem.Assignee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskItem.DueDate" class="control-label"></label>
+                <input asp-for="TaskItem.DueDate" class="form-control" />
+                <span asp-validation-for="TaskItem.DueDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskItem.CreatedAt" class="control-label"></label>
+                <input asp-for="TaskItem.CreatedAt" class="form-control" />
+                <span asp-validation-for="TaskItem.CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskItem.UpdatedAt" class="control-label"></label>
+                <input asp-for="TaskItem.UpdatedAt" class="form-control" />
+                <span asp-validation-for="TaskItem.UpdatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="TaskItem.ProjectId" class="control-label"></label>
+                <select asp-for="TaskItem.ProjectId" class ="form-control" asp-items="ViewBag.ProjectId" aria-required="true"></select>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="TaskItem.CategoryId" class="control-label"></label>
+                <select asp-for="TaskItem.CategoryId" class ="form-control" asp-items="ViewBag.CategoryId" aria-required="true"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,90 @@
+@page
+@model Developer_Task_Manager.Pages_Tasks.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].Assignee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].UpdatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].Project)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskItem[0].Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.TaskItem) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Assignee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
