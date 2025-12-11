@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Developer_Task_Manager.Data;
 using Developer_Task_Manager.Models;
 
 namespace Developer_Task_Manager.Pages_Categories
 {
     public class IndexModel : PageModel
     {
-        private readonly Developer_Task_Manager.Data.AppDbContext _context;
+        private readonly Developer_Task_Manager.Models.AppDbContext _context;
 
-        public IndexModel(Developer_Task_Manager.Data.AppDbContext context)
+        public IndexModel(Developer_Task_Manager.Models.AppDbContext context)
         {
             _context = context;
         }

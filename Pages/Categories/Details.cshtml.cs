@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Developer_Task_Manager.Data;
 using Developer_Task_Manager.Models;
 
 namespace Developer_Task_Manager.Pages_Categories
 {
     public class DetailsModel : PageModel
     {
-        private readonly Developer_Task_Manager.Data.AppDbContext _context;
+        private readonly Developer_Task_Manager.Models.AppDbContext _context;
 
-        public DetailsModel(Developer_Task_Manager.Data.AppDbContext context)
+        public DetailsModel(Developer_Task_Manager.Models.AppDbContext context)
         {
             _context = context;
         }
@@ -28,16 +27,19 @@ namespace Developer_Task_Manager.Pages_Categories
                 return NotFound();
             }
 
-            var category = await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = await _context.Categories
+                .Include(c => c.Tasks)
+                .FirstOrDefaultAsync(m => m.CategoryID == id);
 
-            if (category is not null)
+            if (category == null)
+            {
+                return NotFound();
+            }
+            else
             {
                 Category = category;
-
-                return Page();
             }
-
-            return NotFound();
+            return Page();
         }
     }
 }
