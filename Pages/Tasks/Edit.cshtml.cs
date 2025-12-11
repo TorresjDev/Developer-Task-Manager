@@ -30,7 +30,7 @@ namespace Developer_Task_Manager.Pages_Tasks
                 return NotFound();
             }
 
-            var taskitem =  await _context.TaskItems.FirstOrDefaultAsync(m => m.ProjectId == id);
+            var taskitem =  await _context.TaskItems.FirstOrDefaultAsync(m => m.TaskId == id);
             if (taskitem == null)
             {
                 return NotFound();
@@ -47,9 +47,12 @@ namespace Developer_Task_Manager.Pages_Tasks
         {
             if (!ModelState.IsValid)
             {
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name");
+                ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "Name");
                 return Page();
             }
 
+            TaskItem.UpdatedAt = DateTime.Now;
             _context.Attach(TaskItem).State = EntityState.Modified;
 
             try
@@ -58,7 +61,7 @@ namespace Developer_Task_Manager.Pages_Tasks
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TaskItemExists(TaskItem.ProjectId))
+                if (!TaskItemExists(TaskItem.TaskId))
                 {
                     return NotFound();
                 }
@@ -73,7 +76,7 @@ namespace Developer_Task_Manager.Pages_Tasks
 
         private bool TaskItemExists(int id)
         {
-            return _context.TaskItems.Any(e => e.ProjectId == id);
+            return _context.TaskItems.Any(e => e.TaskId == id);
         }
     }
 }

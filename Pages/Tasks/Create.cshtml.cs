@@ -34,9 +34,13 @@ namespace Developer_Task_Manager.Pages_Tasks
         {
             if (!ModelState.IsValid)
             {
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name");
+                ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "Name");
                 return Page();
             }
 
+            TaskItem.CreatedAt = DateTime.Now;
+            TaskItem.UpdatedAt = DateTime.Now;
             _context.TaskItems.Add(TaskItem);
             await _context.SaveChangesAsync();
 
