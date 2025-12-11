@@ -2,78 +2,70 @@
 @model Developer_Task_Manager.Pages_Tasks.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Task Details";
 }
 
-<h1>Details</h1>
+<div class="page-header">
+    <h1>Task Details</h1>
+</div>
 
 <div>
-    <h4>TaskItem</h4>
-    <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.Title)
+        <dt class="col-sm-3">Title</dt>
+        <dd class="col-sm-9">@Model.TaskItem.Title</dd>
+
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.TaskItem.Description) ? "-" : Model.TaskItem.Description)</dd>
+
+        <dt class="col-sm-3">Priority</dt>
+        <dd class="col-sm-9">
+            @{
+                var priorityClass = Model.TaskItem.Priority switch
+                {
+                    "High" => "badge bg-danger",
+                    "Medium" => "badge bg-warning text-dark",
+                    "Low" => "badge bg-secondary",
+                    _ => "badge bg-secondary"
+                };
+            }
+            <span class="@priorityClass">@Model.TaskItem.Priority</span>
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.Description)
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">
+            @{
+                var statusClass = Model.TaskItem.Status switch
+                {
+                    "Done" => "badge bg-success",
+                    "In Progress" => "badge bg-warning text-dark",
+                    "To Do" => "badge bg-secondary",
+                    _ => "badge bg-secondary"
+                };
+            }
+            <span class="@statusClass">@Model.TaskItem.Status</span>
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.Priority)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.Priority)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.Status)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.Assignee)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.Assignee)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.DueDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.DueDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.CreatedAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.CreatedAt)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.UpdatedAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.UpdatedAt)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.Project)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.Project.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskItem.Category)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskItem.Category.Name)
-        </dd>
+
+        <dt class="col-sm-3">Project</dt>
+        <dd class="col-sm-9">@Model.TaskItem.Project?.Name</dd>
+
+        <dt class="col-sm-3">Category</dt>
+        <dd class="col-sm-9">@Model.TaskItem.Category?.Name</dd>
+
+        <dt class="col-sm-3">Assignee</dt>
+        <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.TaskItem.Assignee) ? "-" : Model.TaskItem.Assignee)</dd>
+
+        <dt class="col-sm-3">Due Date</dt>
+        <dd class="col-sm-9">@(Model.TaskItem.DueDate?.ToString("MMM dd, yyyy") ?? "-")</dd>
+
+        <dt class="col-sm-3">Created</dt>
+        <dd class="col-sm-9">@Model.TaskItem.CreatedAt.ToString("MMM dd, yyyy")</dd>
+
+        <dt class="col-sm-3">Updated</dt>
+        <dd class="col-sm-9">@Model.TaskItem.UpdatedAt.ToString("MMM dd, yyyy")</dd>
     </dl>
 </div>
+
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Edit" asp-route-id="@Model.TaskItem.TaskItemID" class="btn btn-primary">Edit</a>
+    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
 </div>

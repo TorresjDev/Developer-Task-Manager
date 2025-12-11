@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Developer_Task_Manager.Data;
 using Developer_Task_Manager.Models;
 
 namespace Developer_Task_Manager.Pages_Categories
 {
     public class EditModel : PageModel
     {
-        private readonly Developer_Task_Manager.Data.AppDbContext _context;
+        private readonly Developer_Task_Manager.Models.AppDbContext _context;
 
-        public EditModel(Developer_Task_Manager.Data.AppDbContext context)
+        public EditModel(Developer_Task_Manager.Models.AppDbContext context)
         {
             _context = context;
         }
@@ -30,7 +29,7 @@ namespace Developer_Task_Manager.Pages_Categories
                 return NotFound();
             }
 
-            var category =  await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category =  await _context.Categories.FirstOrDefaultAsync(m => m.CategoryID == id);
             if (category == null)
             {
                 return NotFound();
@@ -56,7 +55,7 @@ namespace Developer_Task_Manager.Pages_Categories
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(Category.CategoryId))
+                if (!CategoryExists(Category.CategoryID))
                 {
                     return NotFound();
                 }
@@ -71,7 +70,7 @@ namespace Developer_Task_Manager.Pages_Categories
 
         private bool CategoryExists(int id)
         {
-            return _context.Categories.Any(e => e.CategoryId == id);
+            return _context.Categories.Any(e => e.CategoryID == id);
         }
     }
 }

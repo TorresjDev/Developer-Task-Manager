@@ -2,43 +2,38 @@
 @model Developer_Task_Manager.Pages_Projects.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Project";
 }
 
-<h1>Edit</h1>
+<div class="page-header">
+    <h1>Edit Project</h1>
+</div>
 
-<h4>Project</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Project.ProjectId" />
-            <div class="form-group">
-<span class="text-danger">*</span>
-                <label asp-for="Project.Name" class="control-label"></label>
-                <input asp-for="Project.Name" class="form-control" aria-required="true"/>
+            <input type="hidden" asp-for="Project.ProjectID" />
+            <input type="hidden" asp-for="Project.CreatedAt" />
+            
+            <div class="mb-3">
+                <label asp-for="Project.Name" class="form-label"></label>
+                <input asp-for="Project.Name" class="form-control" />
                 <span asp-validation-for="Project.Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Project.Description" class="control-label"></label>
-                <input asp-for="Project.Description" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="Project.Description" class="form-label"></label>
+                <textarea asp-for="Project.Description" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="Project.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Project.CreatedAt" class="control-label"></label>
-                <input asp-for="Project.CreatedAt" class="form-control" />
-                <span asp-validation-for="Project.CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-page="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
 </div>
 
 @section Scripts {

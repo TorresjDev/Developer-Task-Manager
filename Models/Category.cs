@@ -8,17 +8,15 @@ namespace Developer_Task_Manager.Models;
 /// </summary>
 public class Category
 {
-    [Key]
-    public int CategoryId { get; set; }
+    public int CategoryID { get; set; } // Primary Key
 
-    [Required(ErrorMessage = "Category name is required")]
-    [StringLength(50, ErrorMessage = "Category name cannot exceed 50 characters")]
+    [StringLength(50)]
     [Display(Name = "Category Name")]
     public string Name { get; set; } = string.Empty;
 
-    [StringLength(200, ErrorMessage = "Description cannot exceed 200 characters")]
+    [StringLength(300)]
     public string Description { get; set; } = string.Empty;
 
     // Navigation property - One Category has many Tasks
-    public List<TaskItem> Tasks { get; set; } = new();
+    public List<TaskItem>? Tasks { get; set; } = default!;
 }
