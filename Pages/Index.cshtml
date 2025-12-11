@@ -1,10 +1,82 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="page-header">
+    <h1>Dashboard</h1>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body text-center bg-list-group-horizontal">
+                <h5 class="card-title text-muted">Total Tasks</h5>
+                <h2>@Model.TotalTasks</h2>
+                <a asp-page="/Tasks/Index" class="btn btn-sm btn-warning">View Tasks</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <h5 class="card-title text-muted">Projects</h5>
+                <h2>@Model.TotalProjects</h2>
+                <a asp-page="/Projects/Index" class="btn btn-sm btn-info">View Projects</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <h5 class="card-title text-muted">Categories</h5>
+                <h2>@Model.TotalCategories</h2>
+                <a asp-page="/Categories/Index" class="btn btn-sm btn-success">View Categories</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="row mb-4">
+    <div class="col-md-6 m-auto">
+        <!-- Task Status -->
+        <div class="card shadow">
+            <div class="card-header fw-bold">
+                Task Status
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h4>@Model.TasksToDo</h4>
+                        <p class="text-primary">To Do</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>@Model.TasksInProgress</h4>
+                        <p class="text-progress">In Progress</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>@Model.TasksDone</h4>
+                        <p class="text-indigo">Done</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 m-auto">
+        <!-- Quick Actions -->
+        <div class="card shadow mx-auto text-center" style="width: 25rem;">
+            <div class="card-header fw-bold">
+                Quick Actions
+            </div>
+            <div class="card-body rounded-bottom">
+                <a asp-page="/Tasks/Create" class="btn btn-warning">New Task</a>
+                <a asp-page="/Projects/Create" class="btn btn-info">New Project</a>
+                <a asp-page="/Categories/Create" class="btn btn-success">New Category</a>
+            </div>
+        </div>
+    </div>
 </div>
