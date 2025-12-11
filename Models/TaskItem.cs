@@ -5,27 +5,25 @@ namespace Developer_Task_Manager.Models;
 /// <summary>
 /// Represents a task assigned to a project and category.
 /// Named TaskItem to avoid conflict with System.Threading.Tasks.Task.
-/// This is a child entity with foreign key relationships to Project and Category.
 /// </summary>
 public class TaskItem
 {
-    [Key]
-    public int TaskId { get; set; }
+    public int TaskItemID { get; set; } // Primary Key
 
-    [Required(ErrorMessage = "Task title is required")]
-    [StringLength(150, ErrorMessage = "Title cannot exceed 150 characters")]
+    [StringLength(150)]
+    [Display(Name = "Task Title")]
     public string Title { get; set; } = string.Empty;
 
-    [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters")]
+    [StringLength(1000)]
     public string Description { get; set; } = string.Empty;
 
-    [Required]
     [StringLength(20)]
-    public string Priority { get; set; } = "Medium"; // Low, Medium, High
+    [Display(Name = "Priority")]
+    public string Priority { get; set; } = string.Empty; // Low, Medium, High
 
-    [Required]
     [StringLength(20)]
-    public string Status { get; set; } = "To Do"; // To Do, In Progress, Done
+    [Display(Name = "Status")]
+    public string Status { get; set; } = string.Empty; // To Do, In Progress, Done
 
     [StringLength(50)]
     public string Assignee { get; set; } = string.Empty;
@@ -44,12 +42,10 @@ public class TaskItem
 
     // Foreign Keys
     [Display(Name = "Project")]
-    [Required(ErrorMessage = "Please select a project")]
-    public int ProjectId { get; set; }
+    public int ProjectID { get; set; }
 
     [Display(Name = "Category")]
-    [Required(ErrorMessage = "Please select a category")]
-    public int CategoryId { get; set; }
+    public int CategoryID { get; set; }
 
     // Navigation Properties
     public Project Project { get; set; } = default!;

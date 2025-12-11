@@ -8,15 +8,13 @@ namespace Developer_Task_Manager.Models;
 /// </summary>
 public class Project
 {
-    [Key]
-    public int ProjectId { get; set; }
+    public int ProjectID { get; set; } // Primary Key
 
-    [Required(ErrorMessage = "Project name is required")]
-    [StringLength(100, ErrorMessage = "Project name cannot exceed 100 characters")]
+    [StringLength(100)]
     [Display(Name = "Project Name")]
     public string Name { get; set; } = string.Empty;
 
-    [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters")]
+    [StringLength(500)]
     public string Description { get; set; } = string.Empty;
 
     [Display(Name = "Created At")]
@@ -24,5 +22,5 @@ public class Project
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     // Navigation property - One Project has many Tasks
-    public List<TaskItem> Tasks { get; set; } = new();
+    public List<TaskItem>? Tasks { get; set; } = default!;
 }
