@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Developer_Task_Manager.Data;
 using Developer_Task_Manager.Models;
 
 namespace Developer_Task_Manager.Pages_Projects
 {
     public class EditModel : PageModel
     {
-        private readonly Developer_Task_Manager.Data.AppDbContext _context;
+        private readonly Developer_Task_Manager.Models.AppDbContext _context;
 
-        public EditModel(Developer_Task_Manager.Data.AppDbContext context)
+        public EditModel(Developer_Task_Manager.Models.AppDbContext context)
         {
             _context = context;
         }
@@ -30,7 +29,7 @@ namespace Developer_Task_Manager.Pages_Projects
                 return NotFound();
             }
 
-            var project =  await _context.Projects.FirstOrDefaultAsync(m => m.ProjectId == id);
+            var project =  await _context.Projects.FirstOrDefaultAsync(m => m.ProjectID == id);
             if (project == null)
             {
                 return NotFound();
@@ -56,7 +55,7 @@ namespace Developer_Task_Manager.Pages_Projects
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProjectExists(Project.ProjectId))
+                if (!ProjectExists(Project.ProjectID))
                 {
                     return NotFound();
                 }
@@ -71,7 +70,7 @@ namespace Developer_Task_Manager.Pages_Projects
 
         private bool ProjectExists(int id)
         {
-            return _context.Projects.Any(e => e.ProjectId == id);
+            return _context.Projects.Any(e => e.ProjectID == id);
         }
     }
 }

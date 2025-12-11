@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Developer_Task_Manager.Data;
 using Developer_Task_Manager.Models;
 
 namespace Developer_Task_Manager.Pages_Projects
 {
     public class DeleteModel : PageModel
     {
-        private readonly Developer_Task_Manager.Data.AppDbContext _context;
+        private readonly Developer_Task_Manager.Models.AppDbContext _context;
 
-        public DeleteModel(Developer_Task_Manager.Data.AppDbContext context)
+        public DeleteModel(Developer_Task_Manager.Models.AppDbContext context)
         {
             _context = context;
         }
@@ -29,16 +28,17 @@ namespace Developer_Task_Manager.Pages_Projects
                 return NotFound();
             }
 
-            var project = await _context.Projects.FirstOrDefaultAsync(m => m.ProjectId == id);
+            var project = await _context.Projects.FirstOrDefaultAsync(m => m.ProjectID == id);
 
-            if (project is not null)
+            if (project == null)
+            {
+                return NotFound();
+            }
+            else
             {
                 Project = project;
-
-                return Page();
             }
-
-            return NotFound();
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
