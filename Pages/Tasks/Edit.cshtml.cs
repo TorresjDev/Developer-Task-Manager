@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Developer_Task_Manager.Data;
 using Developer_Task_Manager.Models;
 
 namespace Developer_Task_Manager.Pages_Tasks
 {
     public class EditModel : PageModel
     {
-        private readonly Developer_Task_Manager.Data.AppDbContext _context;
+        private readonly Developer_Task_Manager.Models.AppDbContext _context;
 
-        public EditModel(Developer_Task_Manager.Data.AppDbContext context)
+        public EditModel(Developer_Task_Manager.Models.AppDbContext context)
         {
             _context = context;
         }
@@ -30,14 +29,14 @@ namespace Developer_Task_Manager.Pages_Tasks
                 return NotFound();
             }
 
-            var taskitem =  await _context.TaskItems.FirstOrDefaultAsync(m => m.TaskId == id);
+            var taskitem =  await _context.TaskItems.FirstOrDefaultAsync(m => m.TaskItemID == id);
             if (taskitem == null)
             {
                 return NotFound();
             }
             TaskItem = taskitem;
-           ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name");
-           ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "Name");
+           ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "Name");
+           ViewData["ProjectID"] = new SelectList(_context.Projects, "ProjectID", "Name");
             return Page();
         }
 
@@ -45,10 +44,14 @@ namespace Developer_Task_Manager.Pages_Tasks
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            // Remove validation for navigation properties (populated by EF Core)
+            ModelState.Remove("TaskItem.Project");
+            ModelState.Remove("TaskItem.Category");
+
             if (!ModelState.IsValid)
             {
-                ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name");
-                ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "Name");
+                ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "Name");
+                ViewData["ProjectID"] = new SelectList(_context.Projects, "ProjectID", "Name");
                 return Page();
             }
 
@@ -61,7 +64,7 @@ namespace Developer_Task_Manager.Pages_Tasks
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TaskItemExists(TaskItem.TaskId))
+                if (!TaskItemExists(TaskItem.TaskItemID))
                 {
                     return NotFound();
                 }
@@ -76,7 +79,7 @@ namespace Developer_Task_Manager.Pages_Tasks
 
         private bool TaskItemExists(int id)
         {
-            return _context.TaskItems.Any(e => e.TaskId == id);
+            return _context.TaskItems.Any(e => e.TaskItemID == id);
         }
     }
 }

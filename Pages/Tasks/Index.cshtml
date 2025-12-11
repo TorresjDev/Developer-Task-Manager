@@ -2,89 +2,75 @@
 @model Developer_Task_Manager.Pages_Tasks.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tasks";
 }
 
-<h1>Index</h1>
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h1>Tasks</h1>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
+</div>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].Priority)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].Assignee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].DueDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].UpdatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].Project)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskItem[0].Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.TaskItem) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Priority)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Assignee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Project.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+@if (Model.TaskItem.Any())
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Project</th>
+                <th>Category</th>
+                <th>Due Date</th>
+                <th>Assignee</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TaskItem)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>
+                        @{
+                            var priorityClass = item.Priority switch
+                            {
+                                "High" => "badge bg-danger",
+                                "Medium" => "badge bg-warning text-dark",
+                                "Low" => "badge bg-info",
+                                _ => "badge bg-secondary"
+                            };
+                        }
+                        <span class="@priorityClass">@item.Priority</span>
+                    </td>
+                    <td>
+                        @{
+                            var statusClass = item.Status switch
+                            {
+                                "Done" => "badge bg-indigo",
+                                "In Progress" => "badge bg-warning text-dark",
+                                "To Do" => "badge bg-primary",
+                                _ => "badge bg-secondary"
+                            };
+                        }
+                        <span class="@statusClass">@item.Status</span>
+                    </td>
+                    <td>@item.Project?.Name</td>
+                    <td>@item.Category?.Name</td>
+                    <td>@item.DueDate?.ToString("MMM dd, yyyy")</td>
+                    <td>@(string.IsNullOrEmpty(item.Assignee) ? "-" : item.Assignee)</td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.TaskItemID">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.TaskItemID">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.TaskItemID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+    <div class="alert alert-info">
+        No tasks found. <a asp-page="Create">Create your first task</a>.
+    </div>
+}
