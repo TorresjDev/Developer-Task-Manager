@@ -5,24 +5,124 @@
     ViewData["Title"] = "Tasks";
 }
 
-<div class="page-header d-flex justify-content-between align-items-center">
+<div class="page-header d-flex justify-content-between align-items-center mb-3">
     <h1>Tasks</h1>
-    <a asp-page="Create" class="btn btn-primary">Create New</a>
+    <div class="row ">
+
+    </div>
+    <div class="d-flex me-3 gap-1">
+        <div class="col-md-auto d-flex">
+            <form class="d-flex" role="sort" asp-page="./Index" method="get">
+                <input type="hidden" name="CurrentSort" value="@Model.CurrentSort" />
+                <input type="hidden" name="CurrentSearch" value="@Model.CurrentSearch" />
+                <select name="PriorityFilter" class="form-select form-select-sm mx-1 shadow-sm" onchange="this.form.submit()">
+                    <option value="">All Priorities</option>
+                    @{
+                        string[] priorities = { "Low", "Medium", "High" };
+                        foreach (var p in priorities)
+                        {
+                            var isSelected = Model.PriorityFilter == p;
+                            <option value="@p" selected="@isSelected">@p</option>
+                        }
+                    }
+                </select>
+                <select name="StatusFilter" class="form-select form-select-sm mx-1 shadow-sm" onchange="this.form.submit()">
+                    <option value="">All Statuses</option>
+                    @{
+                        string[] statuses = { "To Do", "In Progress", "Done" };
+                        foreach (var s in statuses)
+                        {
+                            var isSelected = Model.StatusFilter == s;
+                            <option value="@s" selected="@isSelected">@s</option>
+                        }
+                    }
+                </select>
+
+                @if (!string.IsNullOrEmpty(Model.PriorityFilter) || !string.IsNullOrEmpty(Model.StatusFilter))
+                {
+                    <div class="col-auto d-flex mx-1">
+                        <a asp-page="./Index" asp-route-CurrentSort="@Model.CurrentSort" asp-route-CurrentSearch="@Model.CurrentSearch" class="btn btn-sm btn-outline-secondary shadow-sm text-dark">Clear Filters</a>
+                    </div>
+
+                }
+            </form>
+        </div>
+        <div class="col-md-auto me-1">
+            <form class="d-flex" role="search" asp-page="./Index" method="get">
+                <div class="input-group shadow-sm">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input class="form-control" type="search" name="CurrentSearch" value="@Model.CurrentSearch" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-primary shadow-sm" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-page="Create" class="btn btn-primary shadow-sm">Create New</a>
+        </div>
+    </div>
 </div>
+
+
 
 @if (Model.TaskItem.Any())
 {
-    <table class="table table-striped table-hover">
-        <thead>
+    <table class="table table-responsive table-striped table-hover align-middle border border-2 border-dark shadow-sm">
+        <thead class="table-info border-bottom border-secondary">
             <tr>
-                <th>Title</th>
-                <th>Priority</th>
-                <th>Status</th>
-                <th>Project</th>
-                <th>Category</th>
-                <th>Due Date</th>
-                <th>Assignee</th>
-                <th>Actions</th>
+                <th>
+                    @{
+                        var titleSort = "title_asc";
+                        if (Model.CurrentSort == "title_asc")
+                        {
+                            titleSort = "title_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@titleSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-PriorityFilter="@Model.PriorityFilter" asp-route-StatusFilter="@Model.StatusFilter">Title</a>
+                </th>
+                <th class="text-center">Priority</th>
+                <th class="text-center">Status</th>
+                <th>
+                    @{
+                        var projectSort = "project_asc";
+                        if (Model.CurrentSort == "project_asc")
+                        {
+                            projectSort = "project_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@projectSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-PriorityFilter="@Model.PriorityFilter" asp-route-StatusFilter="@Model.StatusFilter">Project</a>
+                </th>
+                <th class="text-center">
+                    @{
+                        var categorySort = "category_asc";
+                        if (Model.CurrentSort == "category_asc")
+                        {
+                            categorySort = "category_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@categorySort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-PriorityFilter="@Model.PriorityFilter" asp-route-StatusFilter="@Model.StatusFilter">Category</a>
+                </th>
+                <th class="text-center">
+                    @{
+                        var dueDateSort = "duedate_asc";
+                        if (Model.CurrentSort == "duedate_asc")
+                        {
+                            dueDateSort = "duedate_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@dueDateSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-PriorityFilter="@Model.PriorityFilter" asp-route-StatusFilter="@Model.StatusFilter">Due Date</a>
+                </th>
+                <th class="text-center">
+                    @{
+                        var assigneeSort = "assignee_asc";
+                        if (Model.CurrentSort == "assignee_asc")
+                        {
+                            assigneeSort = "assignee_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@assigneeSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-PriorityFilter="@Model.PriorityFilter" asp-route-StatusFilter="@Model.StatusFilter">Assignee</a>
+                </th>
+                <th class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +130,7 @@
             {
                 <tr>
                     <td>@item.Title</td>
-                    <td>
+                    <td class="text-center">
                         @{
                             var priorityClass = item.Priority switch
                             {
@@ -42,7 +142,7 @@
                         }
                         <span class="@priorityClass">@item.Priority</span>
                     </td>
-                    <td>
+                    <td class="text-center">
                         @{
                             var statusClass = item.Status switch
                             {
@@ -55,10 +155,10 @@
                         <span class="@statusClass">@item.Status</span>
                     </td>
                     <td>@item.Project?.Name</td>
-                    <td>@item.Category?.Name</td>
-                    <td>@item.DueDate?.ToString("MMM dd, yyyy")</td>
-                    <td>@(string.IsNullOrEmpty(item.Assignee) ? "-" : item.Assignee)</td>
-                    <td>
+                    <td class="text-center">@item.Category?.Name</td>
+                    <td class="text-center">@item.DueDate?.ToString("MMM dd, yyyy")</td>
+                    <td class="text-center">@(string.IsNullOrEmpty(item.Assignee) ? "-" : item.Assignee)</td>
+                    <td class="text-center">
                         <a asp-page="./Edit" asp-route-id="@item.TaskItemID">Edit</a> |
                         <a asp-page="./Details" asp-route-id="@item.TaskItemID">Details</a> |
                         <a asp-page="./Delete" asp-route-id="@item.TaskItemID">Delete</a>
@@ -74,3 +174,22 @@ else
         No tasks found. <a asp-page="Create">Create your first task</a>.
     </div>
 }
+<hr />
+@{
+    var prevDisabled = "";
+    var nextDisabled = "";
+    if (Model.PageNum <= 1)
+    {
+        prevDisabled = "disabled";
+    }
+    if (Model.PageNum >= Model.TotalPages)
+    {
+        nextDisabled = "disabled";
+    }
+}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item shadow-sm @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSort="@Model.CurrentSort" asp-route-PageNum="@(Model.PageNum - 1)" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-PriorityFilter="@Model.PriorityFilter" asp-route-StatusFilter="@Model.StatusFilter">Previous</a></li>
+        <li class="page-item shadow-sm @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSort="@Model.CurrentSort" asp-route-PageNum="@(Model.PageNum + 1)" asp-route-CurrentSearch="@Model.CurrentSearch" asp-route-PriorityFilter="@Model.PriorityFilter" asp-route-StatusFilter="@Model.StatusFilter">Next</a></li>
+    </ul>
+</nav>

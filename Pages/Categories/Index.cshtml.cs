@@ -18,11 +18,55 @@ namespace Developer_Task_Manager.Pages_Categories
             _context = context;
         }
 
-        public IList<Category> Category { get;set; } = default!;
+        public IList<Category> Category { get; set; } = default!;
+
+        // Paging support
+        [BindProperty(SupportsGet = true)]
+        public int PageNum { get; set; } = 1;
+        public int PageSize { get; set; } = 7;
+        public int TotalPages { get; set; }
+
+        // Sorting support
+        [BindProperty(SupportsGet = true)]
+        public string CurrentSort { get; set; } = "name_asc";
+
+        // Search support
+        [BindProperty(SupportsGet = true)]
+        public string CurrentSearch { get; set; } = string.Empty;
 
         public async Task OnGetAsync()
         {
-            Category = await _context.Categories.ToListAsync();
+            var query = _context.Categories.Select(c => c);
+
+            if (!string.IsNullOrEmpty(CurrentSearch))
+            {
+                query = query.Where(c => c.Name.ToUpper().Contains(CurrentSearch.ToUpper())
+                                    || c.Description.ToUpper().Contains(CurrentSearch.ToUpper()));
+            }
+
+            switch (CurrentSort)
+            {
+                case "name_asc":
+                    query = query.OrderBy(c => c.Name);
+                    break;
+                case "name_desc":
+                    query = query.OrderByDescending(c => c.Name);
+                    break;
+                case "description_asc":
+                    query = query.OrderBy(c => c.Description);
+                    break;
+                case "description_desc":
+                    query = query.OrderByDescending(c => c.Description);
+                    break;
+                default:
+                    // Default sort
+                    query = query.OrderBy(c => c.Name);
+                    break;
+            }
+
+            TotalPages = (int)Math.Ceiling(query.Count() / (double)PageSize);
+
+            Category = await query.Skip((PageNum - 1) * PageSize).Take(PageSize).ToListAsync();
         }
     }
 }
