@@ -18,12 +18,12 @@ namespace Developer_Task_Manager.Pages_Categories
             _context = context;
         }
 
-        public IList<Category> Category { get;set; } = default!;
+        public IList<Category> Category { get; set; } = default!;
 
         // Paging support
         [BindProperty(SupportsGet = true)]
         public int PageNum { get; set; } = 1;
-        public int PageSize { get; set; } = 5;
+        public int PageSize { get; set; } = 7;
         public int TotalPages { get; set; }
 
         // Sorting support

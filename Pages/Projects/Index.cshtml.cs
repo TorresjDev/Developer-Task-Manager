@@ -18,12 +18,12 @@ namespace Developer_Task_Manager.Pages_Projects
             _context = context;
         }
 
-        public IList<Project> Project { get;set; } = default!;
+        public IList<Project> Project { get; set; } = default!;
 
         // Paging support
         [BindProperty(SupportsGet = true)]
         public int PageNum { get; set; } = 1;
-        public int PageSize { get; set; } = 5;
+        public int PageSize { get; set; } = 7;
         public int TotalPages { get; set; }
 
         // Sorting support

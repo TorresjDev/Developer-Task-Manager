@@ -18,12 +18,12 @@ namespace Developer_Task_Manager.Pages_Tasks
             _context = context;
         }
 
-        public IList<TaskItem> TaskItem { get;set; } = default!;
+        public IList<TaskItem> TaskItem { get; set; } = default!;
 
         // Paging support
         [BindProperty(SupportsGet = true)]
         public int PageNum { get; set; } = 1;
-        public int PageSize { get; set; } = 5;
+        public int PageSize { get; set; } = 7;
         public int TotalPages { get; set; }
 
         // Sorting support
@@ -33,6 +33,13 @@ namespace Developer_Task_Manager.Pages_Tasks
         // Search support
         [BindProperty(SupportsGet = true)]
         public string CurrentSearch { get; set; } = string.Empty;
+
+        // Filter support
+        [BindProperty(SupportsGet = true)]
+        public string PriorityFilter { get; set; } = string.Empty;
+
+        [BindProperty(SupportsGet = true)]
+        public string StatusFilter { get; set; } = string.Empty;
 
         public async Task OnGetAsync()
         {
@@ -51,6 +58,18 @@ namespace Developer_Task_Manager.Pages_Tasks
                                     || t.Category.Name.ToUpper().Contains(CurrentSearch.ToUpper()));
             }
 
+            // Priority filter
+            if (!string.IsNullOrEmpty(PriorityFilter))
+            {
+                query = query.Where(t => t.Priority == PriorityFilter);
+            }
+
+            // Status filter
+            if (!string.IsNullOrEmpty(StatusFilter))
+            {
+                query = query.Where(t => t.Status == StatusFilter);
+            }
+
             switch (CurrentSort)
             {
                 case "title_asc":
@@ -60,16 +79,26 @@ namespace Developer_Task_Manager.Pages_Tasks
                     query = query.OrderByDescending(t => t.Title);
                     break;
                 case "priority_asc":
-                    query = query.OrderBy(t => t.Priority);
+                    // Custom order: Low (1), Medium (2), High (3)
+                    query = query.OrderBy(t => t.Priority.ToUpper() == "LOW" ? 1 : 
+                                               t.Priority.ToUpper() == "MEDIUM" ? 2 : 
+                                               t.Priority.ToUpper() == "HIGH" ? 3 : 4);
                     break;
                 case "priority_desc":
-                    query = query.OrderByDescending(t => t.Priority);
+                    query = query.OrderByDescending(t => t.Priority.ToUpper() == "LOW" ? 1 : 
+                                                         t.Priority.ToUpper() == "MEDIUM" ? 2 : 
+                                                         t.Priority.ToUpper() == "HIGH" ? 3 : 4);
                     break;
                 case "status_asc":
-                    query = query.OrderBy(t => t.Status);
+                    // Custom order: To Do (1), In Progress (2), Done (3)
+                    query = query.OrderBy(t => t.Status.ToUpper() == "TO DO" ? 1 : 
+                                             t.Status.ToUpper() == "IN PROGRESS" ? 2 : 
+                                             t.Status.ToUpper() == "DONE" ? 3 : 4);
                     break;
                 case "status_desc":
-                    query = query.OrderByDescending(t => t.Status);
+                    query = query.OrderByDescending(t => t.Status.ToUpper() == "TO DO" ? 1 : 
+                                                         t.Status.ToUpper() == "IN PROGRESS" ? 2 : 
+                                                         t.Status.ToUpper() == "DONE" ? 3 : 4);
                     break;
                 case "project_asc":
                     query = query.OrderBy(t => t.Project.Name);

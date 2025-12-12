@@ -9,9 +9,9 @@
 </div>
 
 <!-- Summary Cards -->
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card shadow">
+<div class="row mb-4 justify-content-center mx-auto g-4">
+    <div class="col-md-3">
+        <div class="card shadow border-secondary">
             <div class="card-body text-center bg-list-group-horizontal">
                 <h5 class="card-title text-muted">Total Tasks</h5>
                 <h2>@Model.TotalTasks</h2>
@@ -19,8 +19,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card shadow">
+    <div class="col-md-3">
+        <div class="card shadow border-secondary">
             <div class="card-body text-center">
                 <h5 class="card-title text-muted">Projects</h5>
                 <h2>@Model.TotalProjects</h2>
@@ -28,8 +28,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card shadow">
+    <div class="col-md-3">
+        <div class="card shadow border-secondary">
             <div class="card-body text-center">
                 <h5 class="card-title text-muted">Categories</h5>
                 <h2>@Model.TotalCategories</h2>
@@ -41,26 +41,26 @@
 
 <br />
 
-<div class="row mb-4">
-    <div class="col-md-6 m-auto">
+<div class="row mb-4 g-1 justify-content-center mx-auto px-3">
+    <div class="col-md-5 m-auto">
         <!-- Task Status -->
-        <div class="card shadow">
-            <div class="card-header fw-bold">
+        <div class="card shadow border-dark mx-auto">
+            <div class="card-header fw-bold bg-secondary text-white text-center ">
                 Task Status
             </div>
             <div class="card-body">
                 <div class="row text-center">
                     <div class="col-md-4">
                         <h4>@Model.TasksToDo</h4>
-                        <p class="text-primary">To Do</p>
+                        <p class="text-primary fw-bold">To Do</p>
                     </div>
                     <div class="col-md-4">
                         <h4>@Model.TasksInProgress</h4>
-                        <p class="text-progress">In Progress</p>
+                        <p class="text-progress fw-bold">In Progress</p>
                     </div>
                     <div class="col-md-4">
                         <h4>@Model.TasksDone</h4>
-                        <p class="text-indigo">Done</p>
+                        <p class="text-indigo fw-bold">Done</p>
                     </div>
                 </div>
             </div>
@@ -68,8 +68,8 @@
     </div>
     <div class="col-md-4 m-auto">
         <!-- Quick Actions -->
-        <div class="card shadow mx-auto text-center" style="width: 25rem;">
-            <div class="card-header fw-bold">
+        <div class="card shadow mx-auto text-center border-dark w-fit">
+            <div class="card-header fw-bold bg-secondary text-white">
                 Quick Actions
             </div>
             <div class="card-body rounded-bottom">

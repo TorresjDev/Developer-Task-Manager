@@ -30,7 +30,7 @@ body {
 
 /* ----- Navbar Styles ----- */
 .navbar {
-  background-color: #e4f4ff;
+  background-color: #cff4fc;
 }
 .navbar-brand {
   font-weight: 600;
@@ -82,4 +82,9 @@ body {
 .badge-indigo {
     background-color: #6610f2; 
     color: #fff;              
+}
+
+.bg-info-sky {
+    background-color: #cff4fc; 
+    color: #212529;             
 }
