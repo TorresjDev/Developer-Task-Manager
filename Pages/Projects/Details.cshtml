@@ -1,0 +1,90 @@
+@page
+@model Developer_Task_Manager.Pages_Projects.DetailsModel
+
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<div class="page-header">
+    <h1>Project Details</h1>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@Model.Project.Name</dd>
+
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Project.Description) ? "-" : Model.Project.Description)</dd>
+
+        <dt class="col-sm-3">Created</dt>
+        <dd class="col-sm-9">@Model.Project.CreatedAt.ToString("MMM dd, yyyy")</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Project.ProjectID" class="btn btn-primary">Edit</a>
+    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+<hr />
+
+<div class="mt-4">
+    <h4>Tasks</h4>
+    @if (Model.Project.Tasks != null && Model.Project.Tasks.Any())
+    {
+        <table class="table table-sm table-striped border">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Due Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.Project.Tasks)
+                {
+                    <tr>
+                        <td>
+                            <a asp-page="/Tasks/Details" asp-route-id="@task.TaskItemID">@task.Title</a>
+                        </td>
+                        <td>
+                            @{
+                                var statusClass = task.Status switch
+                                {
+                                    "Done" => "badge bg-indigo",
+                                    "In Progress" => "badge bg-warning text-dark",
+                                    "To Do" => "badge bg-primary",
+                                    _ => "badge bg-secondary"
+                                };
+                            }
+                            <span class="@statusClass">@task.Status</span>
+                        </td>
+                        <td>
+                            @{
+                                var priorityClass = task.Priority switch
+                                {
+                                    "High" => "badge bg-danger",
+                                    "Medium" => "badge bg-warning text-dark",
+                                    "Low" => "badge bg-info",
+                                    _ => "badge bg-secondary"
+                                };
+                            }
+                            <span class="@priorityClass">@task.Priority</span>
+                        </td>
+                        <td>@task.DueDate?.ToString("MMM dd, yyyy")</td>
+                        <td>
+                            <a asp-page="/Tasks/Edit" asp-route-id="@task.TaskItemID" class="btn btn-sm btn-outline-primary">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-muted">No tasks associated with this project.</p>
+    }
+</div>

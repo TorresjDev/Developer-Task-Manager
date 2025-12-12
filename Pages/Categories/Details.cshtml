@@ -1,0 +1,25 @@
+@page
+@model Developer_Task_Manager.Pages_Categories.DetailsModel
+
+@{
+    ViewData["Title"] = "Category Details";
+}
+
+<div class="page-header">
+    <h1>Category Details</h1>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@Model.Category.Name</dd>
+
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Category.Description) ? "-" : Model.Category.Description)</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Category.CategoryID" class="btn btn-primary">Edit</a>
+    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+</div>

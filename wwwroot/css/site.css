@@ -1,5 +1,10 @@
+/* ===== Developer Task Manager - Custom Styles ===== */
+
+/* ----- Base Styles ----- */
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,24 +13,78 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+body {
+  margin-bottom: 60px;
+  background-color: snow;
+}
+
+/* ----- Focus States ----- */
+.btn:focus, 
+.btn:active:focus, 
+.btn-link.nav-link:focus, 
+.form-control:focus, 
+.form-check-input:focus,
+.form-select:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* ----- Navbar Styles ----- */
+.navbar {
+  background-color: #cff4fc;
+}
+.navbar-brand {
+  font-weight: 600;
 }
 
-body {
-  margin-bottom: 60px;
+/* ----- Table Styles ----- */
+.table thead {
+  background-color: #343a40;
+  color: white;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.table thead th {
+  font-weight: 600;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* ----- Page Headers ----- */
+.page-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+
+
+/* ----- Footer Styles ----- */
+.footer {
+  padding: 1rem 0;
+}
+
+
+/* ----- Color Theme Styles ----- */
+/* .bg-gray-300 {
+    background-color: #f3f3f3;
+} */
+
+.bg-indigo {
+    background-color: indigo !important;
+}
+
+.text-indigo {
+    color: indigo !important;
+}
+
+.text-progress {
+    color: #e2ac0b; 
+    font-weight: 600;  
+}
+
+.badge-indigo {
+    background-color: #6610f2; 
+    color: #fff;              
+}
+
+.bg-info-sky {
+    background-color: #cff4fc; 
+    color: #212529;             
 }

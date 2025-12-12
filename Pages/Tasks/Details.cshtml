@@ -1,0 +1,71 @@
+@page
+@model Developer_Task_Manager.Pages_Tasks.DetailsModel
+
+@{
+    ViewData["Title"] = "Task Details";
+}
+
+<div class="page-header">
+    <h1>Task Details</h1>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Title</dt>
+        <dd class="col-sm-9">@Model.TaskItem.Title</dd>
+
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.TaskItem.Description) ? "-" : Model.TaskItem.Description)</dd>
+
+        <dt class="col-sm-3">Priority</dt>
+        <dd class="col-sm-9">
+            @{
+                var priorityClass = Model.TaskItem.Priority switch
+                {
+                    "High" => "badge bg-danger",
+                    "Medium" => "badge bg-warning text-dark",
+                    "Low" => "badge bg-secondary",
+                    _ => "badge bg-secondary"
+                };
+            }
+            <span class="@priorityClass">@Model.TaskItem.Priority</span>
+        </dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">
+            @{
+                var statusClass = Model.TaskItem.Status switch
+                {
+                    "Done" => "badge bg-success",
+                    "In Progress" => "badge bg-warning text-dark",
+                    "To Do" => "badge bg-secondary",
+                    _ => "badge bg-secondary"
+                };
+            }
+            <span class="@statusClass">@Model.TaskItem.Status</span>
+        </dd>
+
+        <dt class="col-sm-3">Project</dt>
+        <dd class="col-sm-9">@Model.TaskItem.Project?.Name</dd>
+
+        <dt class="col-sm-3">Category</dt>
+        <dd class="col-sm-9">@Model.TaskItem.Category?.Name</dd>
+
+        <dt class="col-sm-3">Assignee</dt>
+        <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.TaskItem.Assignee) ? "-" : Model.TaskItem.Assignee)</dd>
+
+        <dt class="col-sm-3">Due Date</dt>
+        <dd class="col-sm-9">@(Model.TaskItem.DueDate?.ToString("MMM dd, yyyy") ?? "-")</dd>
+
+        <dt class="col-sm-3">Created</dt>
+        <dd class="col-sm-9">@Model.TaskItem.CreatedAt.ToString("MMM dd, yyyy")</dd>
+
+        <dt class="col-sm-3">Updated</dt>
+        <dd class="col-sm-9">@Model.TaskItem.UpdatedAt.ToString("MMM dd, yyyy")</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.TaskItem.TaskItemID" class="btn btn-primary">Edit</a>
+    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+</div>

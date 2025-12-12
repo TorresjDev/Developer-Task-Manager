@@ -1,0 +1,94 @@
+@page
+@model Developer_Task_Manager.Pages_Tasks.CreateModel
+
+@{
+    ViewData["Title"] = "Create Task";
+}
+
+<div class="page-header">
+    <h1>Create Task</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="TaskItem.Title" class="form-label"></label>
+                <input asp-for="TaskItem.Title" class="form-control" />
+                <span asp-validation-for="TaskItem.Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TaskItem.Description" class="form-label"></label>
+                <textarea asp-for="TaskItem.Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="TaskItem.Description" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TaskItem.ProjectID" class="form-label"></label>
+                    <select asp-for="TaskItem.ProjectID" class="form-select" asp-items="ViewBag.ProjectID">
+                        <option value="">-- Select Project --</option>
+                    </select>
+                    <span asp-validation-for="TaskItem.ProjectID" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TaskItem.CategoryID" class="form-label"></label>
+                    <select asp-for="TaskItem.CategoryID" class="form-select" asp-items="ViewBag.CategoryID">
+
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="TaskItem.CategoryID" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TaskItem.Priority" class="form-label"></label>
+                    <select asp-for="TaskItem.Priority" class="form-select">
+                        <option value="">-- Select Priority --</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    <span asp-validation-for="TaskItem.Priority" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TaskItem.Status" class="form-label"></label>
+                    <select asp-for="TaskItem.Status" class="form-select">
+                        <option value="">-- Select Status --</option>
+                        <option value="To Do" selected>To Do</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Done">Done</option>
+                    </select>
+                    <span asp-validation-for="TaskItem.Status" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TaskItem.Assignee" class="form-label"></label>
+                    <input asp-for="TaskItem.Assignee" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TaskItem.DueDate" class="form-label"></label>
+                    <input asp-for="TaskItem.DueDate" type="date" class="form-control" />
+                    <span asp-validation-for="TaskItem.DueDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-page="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
