@@ -10,18 +10,93 @@
     <a asp-page="Create" class="btn btn-primary">Create New</a>
 </div>
 
+<div class="row mb-3">
+    <form class="d-flex" role="search" asp-page="./Index" method="get">
+        <div class="col-3">
+             <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input class="form-control me-2" type="search" name="CurrentSearch" value="@Model.CurrentSearch" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 @if (Model.TaskItem.Any())
 {
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Priority</th>
-                <th>Status</th>
-                <th>Project</th>
-                <th>Category</th>
-                <th>Due Date</th>
-                <th>Assignee</th>
+                <th>
+                    @{
+                        var titleSort = "title_asc";
+                        if (Model.CurrentSort == "title_asc")
+                        {
+                            titleSort = "title_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@titleSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch">Title</a>
+                </th>
+                <th>
+                    @{
+                        var prioritySort = "priority_asc";
+                        if (Model.CurrentSort == "priority_asc")
+                        {
+                            prioritySort = "priority_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@prioritySort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch">Priority</a>
+                </th>
+                <th>
+                    @{
+                        var statusSort = "status_asc";
+                        if (Model.CurrentSort == "status_asc")
+                        {
+                            statusSort = "status_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@statusSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch">Status</a>
+                </th>
+                <th>
+                    @{
+                        var projectSort = "project_asc";
+                        if (Model.CurrentSort == "project_asc")
+                        {
+                            projectSort = "project_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@projectSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch">Project</a>
+                </th>
+                <th>
+                    @{
+                        var categorySort = "category_asc";
+                        if (Model.CurrentSort == "category_asc")
+                        {
+                            categorySort = "category_desc";
+                        }
+                    }
+                   <a asp-page="./Index" asp-route-CurrentSort="@categorySort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch">Category</a>
+                </th>
+                <th>
+                    @{
+                        var dueDateSort = "duedate_asc";
+                        if (Model.CurrentSort == "duedate_asc")
+                        {
+                            dueDateSort = "duedate_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@dueDateSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch">Due Date</a>
+                </th>
+                <th>
+                    @{
+                        var assigneeSort = "assignee_asc";
+                        if (Model.CurrentSort == "assignee_asc")
+                        {
+                            assigneeSort = "assignee_desc";
+                        }
+                    }
+                    <a asp-page="./Index" asp-route-CurrentSort="@assigneeSort" asp-route-PageNum="@Model.PageNum" asp-route-CurrentSearch="@Model.CurrentSearch">Assignee</a>
+                </th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -74,3 +149,22 @@ else
         No tasks found. <a asp-page="Create">Create your first task</a>.
     </div>
 }
+<hr />
+@{
+    var prevDisabled = "";
+    var nextDisabled = "";
+    if (Model.PageNum <= 1)
+    {
+        prevDisabled = "disabled";
+    }
+    if (Model.PageNum >= Model.TotalPages)
+    {
+        nextDisabled = "disabled";
+    }
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSort="@Model.CurrentSort" asp-route-PageNum="@(Model.PageNum - 1)" asp-route-CurrentSearch="@Model.CurrentSearch">Previous</a></li>
+        <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSort="@Model.CurrentSort" asp-route-PageNum="@(Model.PageNum + 1)" asp-route-CurrentSearch="@Model.CurrentSearch">Next</a></li>
+    </ul>
+</nav>
