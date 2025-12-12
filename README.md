@@ -1,44 +1,26 @@
-# Developer Task Manager (DTM)
-A lightweight task-tracking web application built for developers.
+# Developer Task Manager
+
+A streamlined task-tracking application for developers to organize projects, categories, and tasks.
 
 ## 📌 Project Overview
 The Developer Task Manager helps developers organize their workflow by allowing them to create tasks, assign them to specific projects, and categorize their work. The goal is to keep things simple, structured, and easy to navigate. The application is built with a clean ASP.NET Core MVC architecture, uses SQLite for local data storage, and follows a connected-data design using Entity Framework Core.
 
-## 🛠️ Tech Stack
-- **C#**
-- **ASP.NET Core MVC**
-- **Entity Framework Core (EF Core)**
-- **SQLite**
-- **Bootstrap 5**
+### 🌐 Live Demo
+*[Launch Developer Task Manager](https://developer-task-manager-torresjdev-g3fvaeg4f2acb6c9.eastus-01.azurewebsites.net/) (Hosted on Azure App Service)*
 
-## 🪶 Core Features
-- Create and manage **Projects**, **Categories**, and **Tasks**
-- Full CRUD functionality across all entities
-- Search, filter, sort, and paginate task lists
-- Clean, responsive UI built with Bootstrap
+---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- **.NET 8.0 SDK** or later
-
-### Installation
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/TorresjDev/Developer-Task-Manager.git
-   cd Developer-Task-Manager
-   ```
-
-2. **Restore dependencies**
-   ```bash
-   dotnet restore
-   ```
-
-3. **Run the application**
-   ```bash
-   dotnet run
-   ```
-   Access the app at `http://localhost:5000` or `https://localhost:5001`.
+## 📂 Project Structure
+```text
+Developer-Task-Manager/
+├── Models/                 # Database entities (Project, Task, Category)
+├── Pages/                  # Razor Pages (UI & Logic)
+├── Migrations/             # EF Core database schemas
+├── wwwroot/                # Static assets (CSS, JS, Libs)
+├── appsettings.json        # Configuration (DB connection strings)
+├── Program.cs              # entry point & service registration
+└── dtm.db                  # Local SQLite database
+```
 
 ## 🗂️ Entity Relationship Diagram (ERD)
 ```mermaid
@@ -74,22 +56,42 @@ erDiagram
     }
 ```
 
-## 🗄️ Database & Migrations
+## 🚀 Key Features
+*   **Dashboard**: At-a-glance view of task metrics.
+*   **Task Management**: Create, assign, prioritize, and categorize tasks.
+*   **Project Organization**: Group tasks by specific projects.
+*   **Filtering & Sorting**: Easily find what you need.
 
-### Resetting the Database
-If you need to reset the database and migrations:
+## 🛠️ Tech Stack
+*   **.NET 8** (ASP.NET Core Razor Pages)
+*   **Entity Framework Core** (SQL-based data access)
+*   **SQLite** (Lightweight database)
+*   **Bootstrap 5** (Responsive UI)
 
-1. **Delete** the `Migrations/` folder.
-2. **Delete** the `DeveloperTaskManager.db` file.
-3. **Run commands** to recreate and seed:
-   ```bash
-   dotnet ef migrations add InitialCreate
-   dotnet ef database update
-   ```
+## ⚡ Getting Started
 
-## ❓ Troubleshooting
-- **Build Errors**: Check for missing `using Developer_Task_Manager.Models;` directives.
-- **Database Locked**: Ensure the database file isn't open in other tools (like DB Browser) when trying to delete it.
+### 1. Installation
+```bash
+git clone https://github.com/TorresjDev/Developer-Task-Manager.git
+cd Developer-Task-Manager
+dotnet restore
+```
 
-## Apache License
-This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+### 2. Run Locally
+```bash
+dotnet run
+```
+access at `http://localhost:5000`
+
+## �️ Database Reset
+If you need to wipe and restart the database:
+1.  Delete the `Migrations` folder.
+2.  Delete `dtm.db`.
+3.  Run:
+    ```bash
+    dotnet ef migrations add InitialCreate
+    dotnet ef database update
+    ```
+
+## ⚖️ License
+Licensed under the [Apache License 2.0](LICENSE).

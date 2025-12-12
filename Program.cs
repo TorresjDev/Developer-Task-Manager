@@ -11,10 +11,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
-// Seed Data
+// Seed Data with validation for publishing environment
 using (var scope = app.Services.CreateScope())
 {
-    SeedData.Initialize(scope.ServiceProvider);
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+        SeedData.Initialize(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred seeding the DB.");
+    }
 }
 
 // Configure the HTTP request pipeline.
@@ -31,8 +42,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+// Enable serving static files
+app.UseStaticFiles();
+app.MapRazorPages();
 
 app.Run();

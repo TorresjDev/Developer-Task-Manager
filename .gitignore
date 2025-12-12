@@ -55,6 +55,11 @@ nunit-*.xml
 
 
 /notes
+# vscode settings
+.vscode/
+
+# publish directory
+publish/*
 
 # SQLite runtime artifacts (keep dtm.db but ignore temp files)
 dtm.db-shm
